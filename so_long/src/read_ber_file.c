@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_ber_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:09:59 by agaroux           #+#    #+#             */
-/*   Updated: 2025/03/19 17:14:19 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/03/20 17:29:19 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int rectangle_map(char **map)
     length = ft_strlen(map[i]);
     while (map[i])
     {
-            //printf("line: %s\nlength: %d\nlength2: %d\n", map[i], length, (int)ft_strlen(map[i]));
+            printf("line: %s\nlength: %d\nlength2: %d\n", map[i], length, (int)ft_strlen(map[i]));
             //rectangular
             if (length != (int)ft_strlen(map[i]))
                 return (printf("Not the same length\n"), 0);
@@ -74,6 +74,7 @@ int duplicate_map(char **map)
                 }
                 i++;
         }
+    //printf("P: %d, E: %d, C: %d", p, e, c);
     if (p != 1 || e != 1 || !c)
         return (0);
     return (1);
@@ -111,10 +112,13 @@ int validate_map(char **map)
 {
     if (!rectangle_map(map))
         return (0);
+    printf("ok");
     if (!duplicate_map(map))
         return (0);
+    printf("ok2");
     if (!int_valid_path(map))
         return (0);
+    printf("ok3");
     return (1);
 }
 int read_ber_file(const char *filename, t_map *map)

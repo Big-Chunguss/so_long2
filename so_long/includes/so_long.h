@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:43:00 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/03/20 15:08:51 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/03/20 17:54:07 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void window_size(char **tab, t_data *data);
 int	main(int argc, char **argv);
 
 //map
-void put_object(t_data *data, char *path);
+void put_object(t_data *data, char *path, int x, int y);
 void create_map(t_data *data);
 
 // colors

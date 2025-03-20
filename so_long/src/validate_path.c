@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:41:35 by agaroux           #+#    #+#             */
-/*   Updated: 2025/03/20 10:56:15 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/03/20 17:06:31 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	int_valid_path(char **map)
 	t_xy	player;
 	int		**visited;
 
+	printf("ok");
 	// t_xy exit;
 	player = position_item(map, 'P');
 	// exit = position_item(map, 'E');
@@ -52,7 +53,7 @@ int	valid_path(char **map, int pX, int pY, int **visited)
 	int	nextY;
 	int	dx[] = {-1, 1, 0, 0};
 	int	dy[] = {0, 0, -1, 1};
-
+	
 	printf("x: %d y: %d\n", pX, pY);
 	if (map[pX][pY] == 'E')
 		return (printf("Valid path!\n"), 1);

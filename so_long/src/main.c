@@ -39,7 +39,7 @@ int ft_exit(t_data *data)
 }
 int ft_render_next_frame(t_data *data)
 {
-	put_background();
+	//put_background();
 	create_map(data);
 	mlx_hook(data->win, 17, 1L << 2, ft_exit, data);
 	return (0);
@@ -64,7 +64,7 @@ void init(t_data *data, t_map *map)
 	if (!img)
 		return;
 	data->pic = img;
-	rel_path = "src/files/player/player000.xpm";
+	rel_path = "src/files/player/player.xpm";
 	data->pic->pic_up = mlx_xpm_file_to_image(data->mlx, rel_path, &img_w, &img_h);
 	if (!data->pic->pic_up)
 		handle_error(data, "Player file not found\n", 1);
@@ -78,7 +78,7 @@ void window_size(char **tab, t_data *data)
 	count = 0;
 	while (tab[count])
 		count++;
-	data->size.x = (ft_strlen(tab[0]) * WIN_W);
+	data->size.x = ((ft_strlen(tab[0]) - 1) * WIN_W);
 	data->size.y = (count * WIN_H);
 }
 
@@ -86,6 +86,7 @@ int	main(int argc, char **argv)
 {
 	t_data data;
 	t_map map;
+
 	if (argc != 2)
 		return(printf("Not the right # of Inputs!\n"), 0);
 	if (!read_ber_file(argv[1], &map))
@@ -96,6 +97,7 @@ int	main(int argc, char **argv)
 	if (!data.mlx)
 		return (printf("Initialization Error\n"),0);
 	init(&data, &map);
+	printf("WIN_X: %d, WIN_Y: %d", data.size.x, data.size.y);
 	data.win = mlx_new_window(data.mlx, data.size.x, data.size.y, "Wassup");
 	ft_render_next_frame(&data);
 	mlx_loop(data.mlx);
