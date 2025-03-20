@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 01:15:18 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/01/07 10:16:53 by afodil-c         ###   ########.fr       */
+/*   Created: 2025/03/19 16:16:51 by agaroux           #+#    #+#             */
+/*   Updated: 2025/03/19 16:16:53 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 # endif
 
+# include "../libft/libft.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -29,7 +30,6 @@
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_newline(const char *str);
-size_t	ft_strlen(const char *s);
 char	*ft_replace(char *buffer);
 char	*ft_extract(char *buffer);
 char	*ft_buffer(int fd, char *buffer);

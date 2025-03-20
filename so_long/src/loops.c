@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loops.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 16:02:58 by agaroux           #+#    #+#             */
+/*   Updated: 2025/03/19 16:36:08 by agaroux          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/so_long.h"
 
-int render_next_frame(t_data *data)
+/*int render_next_frame(t_data *data)
 {
     printf("ok\n");
     static int a = 0;
@@ -50,4 +62,4 @@ void draw_circle(void *mlx_ptr, void *win_ptr, int center_x, int center_y, int r
             err -= 2*x + 1;
         }
     }
-}
+}*/

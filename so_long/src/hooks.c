@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hooks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 16:02:54 by agaroux           #+#    #+#             */
+/*   Updated: 2025/03/19 16:35:43 by agaroux          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "../includes/so_long.h"
 
-int	key_hook(int keycode)
+/*int	key_hook(int keycode)
 {
 	printf("Hello from key_hook! : %d\n", keycode);
 	return (0);
@@ -22,4 +34,4 @@ int mouse_move(int x, int y, t_data *data)
     mlx_put_image_to_window(data->mlx, data->win, data->img, data->cursor_x, data->cursor_y);
 	printf("Mouse position: x = %d, y = %d\n", data->cursor_x, data->cursor_x);
     return (0);
-}
+}*/

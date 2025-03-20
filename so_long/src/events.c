@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   events.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 16:03:45 by agaroux           #+#    #+#             */
+/*   Updated: 2025/03/19 16:35:32 by agaroux          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/so_long.h"
 
-int on_destroy(int keysym, t_data *img)
+/*int on_destroy(int keysym, t_data *img)
 {
     printf("%d\n", keysym);
     if (keysym == XK_Escape)
@@ -66,4 +78,4 @@ void check_key_hold(t_key_state *param) {
             state->is_pressed = 0; // Reset state
         }
     }
-}
+}*/

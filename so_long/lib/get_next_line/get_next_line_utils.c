@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 01:15:31 by afodil-c          #+#    #+#             */
-/*   Updated: 2024/12/20 10:12:13 by afodil-c         ###   ########.fr       */
+/*   Created: 2025/03/19 16:16:36 by agaroux           #+#    #+#             */
+/*   Updated: 2025/03/19 16:16:38 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "get_next_line.h"
 
@@ -75,16 +76,4 @@ int	ft_newline(const char *str)
 		i++;
 	}
 	return (0);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		i++;
-	}
-	return (i);
 }

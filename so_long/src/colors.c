@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 16:03:40 by agaroux           #+#    #+#             */
+/*   Updated: 2025/03/19 16:35:09 by agaroux          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include <../includes/so_long.h>
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+/*void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
@@ -40,4 +52,4 @@ unsigned int get_opposite(unsigned int color)
     while (i < 4)
         printf("%d\n", components[i++]);
     return (create_trgb(components[3], components[2], components[1], components[0]));
-}
+}*/

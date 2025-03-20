@@ -12,7 +12,7 @@ OBJ_DIR = obj
 INCS = -I includes
 MLX_FLAGS = -Lmlx -lmlx -L/usr/X11/lib -lXext -lX11 
 
-SRC = so_long.c colors.c events.c hooks.c loops.c
+SRC = main.c colors.c events.c hooks.c loops.c images.c validate_path.c read_ber_file.c map.c
 
 UTILS = 
 

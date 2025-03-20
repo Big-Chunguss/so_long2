@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afodil-c <afodil-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 11:45:26 by afodil-c          #+#    #+#             */
-/*   Updated: 2024/12/05 08:12:25 by afodil-c         ###   ########.fr       */
+/*   Created: 2025/03/19 16:16:02 by agaroux           #+#    #+#             */
+/*   Updated: 2025/03/19 16:16:05 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "ft_printf.h"
 #include <stdio.h>
