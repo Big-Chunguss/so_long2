@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:41:35 by agaroux           #+#    #+#             */
-/*   Updated: 2025/03/20 17:06:31 by antoine          ###   ########.fr       */
+/*   Updated: 2025/04/05 13:59:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,18 @@ int	int_valid_path(char **map)
 {
 	t_xy	player;
 	int		**visited;
+	int		**visited2;
 
-	printf("ok");
 	// t_xy exit;
 	player = position_item(map, 'P');
 	// exit = position_item(map, 'E');
 	visited = map_visited(map);
-	if (!valid_path(map, player.x, player.y, visited))
-		return (printf("Path not valid!\n"), 0);
-	else
-		return (1);
+	visited2 = map_visited(map);
+	if (!valid_path(map, player.y, player.x, visited))
+		return (printf("Path exit not valid!\n"), 0);
+	if (!valid_path_c(map, player.y, player.x, visited2))
+		return (printf("Path collectibles not valid!\n"), 0);
+	return (printf("player2 x: %d y %d\n", player.x, player.y),1);
 }
 
 void	print_map(char **map)
@@ -54,9 +56,9 @@ int	valid_path(char **map, int pX, int pY, int **visited)
 	int	dx[] = {-1, 1, 0, 0};
 	int	dy[] = {0, 0, -1, 1};
 	
-	printf("x: %d y: %d\n", pX, pY);
+	printf("Player exit = x: %d y: %d\n", pX, pY);
 	if (map[pX][pY] == 'E')
-		return (printf("Valid path!\n"), 1);
+		return (printf("Valid path player!\n"), 1);
 	if (!valid_position(map, pX, pY) || visited[pX][pY])
 		return (0);
 	visited[pX][pY] = 1;
@@ -65,9 +67,31 @@ int	valid_path(char **map, int pX, int pY, int **visited)
 		nextX = pX + dx[i];
 		nextY = pY + dy[i];
 		if (valid_path(map, nextX, nextY, visited))
-			return (printf("Yes it works!"), 1);
+			return (printf("Yes it works e!"), 1);
 	}
-	return (printf("No path!\n"), 0);
+	return (printf("No path exit!\n"), 0);
+}
+int	valid_path_c(char **map, int pX, int pY, int **visited)
+{
+	int	nextX;
+	int	nextY;
+	int	dx[] = {-1, 1, 0, 0};
+	int	dy[] = {0, 0, -1, 1};
+	
+	printf("Player collectibles = x: %d y: %d\n", pX, pY);
+	if (map[pX][pY] == 'C')
+		return (printf("Valid path collectibles!\n"), 1);
+	if (!valid_position(map, pX, pY) || visited[pX][pY])
+		return (0);
+	visited[pX][pY] = 1;
+	for (int i = 0; i < 4; i++)
+	{
+		nextX = pX + dx[i];
+		nextY = pY + dy[i];
+		if (valid_path_c(map, nextX, nextY, visited))
+			return (printf("Yes it works c!"), 1);
+	}
+	return (printf("No path collectible!\n"), 0);
 }
 int	**map_visited(char **map)
 {
@@ -83,6 +107,7 @@ int	**map_visited(char **map)
 	for (x = 0; x < row_count; x++)
 	{
 		int col_count = ft_strlen(map[x]); // or another appropriate length
+		//printf("Col count: %d\n", col_count);
 		visited_map[x] = malloc(sizeof(int) * col_count);
 		if (!visited_map[x])
 		{

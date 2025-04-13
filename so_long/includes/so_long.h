@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:43:00 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/03/20 17:54:07 by antoine          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:36:38 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 #define CENTER_X 500
 #define CENTER_Y 400
 #define RADIUS 100
+#define UPKEY 126
+#define LEFTKEY 123
+#define DOWNKEY 125
+#define RIGHTKEY 124
+#define UP -1
+#define DOWN 1
+#define LEFT -1
+#define RIGHT 1
 
 #include "../lib/mlx/mlx_int.h"
 #include "../lib/mlx/mlx.h"
@@ -81,8 +89,6 @@ typedef struct	s_vars {
 	void	*win;
 }				t_vars;
 
-//cc main.c -I -L.mlx -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
-
 //main
 void free_double_ptr(t_data *data);
 int ft_exit(t_data *data);
@@ -93,8 +99,15 @@ void window_size(char **tab, t_data *data);
 int	main(int argc, char **argv);
 
 //map
+int ft_key_hook(int keysym, t_data *data);
+void put_background(t_data *data);
 void put_object(t_data *data, char *path, int x, int y);
 void create_map(t_data *data);
+
+
+//move 
+void	ft_move(t_data *data, char pos, int dir);
+void    winner(t_data *data);
 
 // colors
 unsigned int add_shade(double shade, unsigned int color);
@@ -123,16 +136,19 @@ void replicate_texture(t_data data);
 
 //read_ber_file
 int rectangle_map(char **map);
-int duplicate_map(char **map);
+int duplicate_map(char **map, t_map *data);
 t_xy    position_item(char **map, char c);
-int validate_map(char **map);
+int validate_map(char **map, t_map *data);
+int valid_cases(char **map);
 int read_ber_file(const char *filename, t_map *map);
+void initalize(int *a, int *b, int *c, int *d);
 
 //validate_path
 int int_valid_path(char **map);
 void print_map(char **map);
 int valid_position(char **map, int x, int y);
 int valid_path(char **map, int pX, int pY, int **visited);
+int	valid_path_c(char **map, int pX, int pY, int **visited);
 int **map_visited(char **map);
 
 

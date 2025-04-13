@@ -12,7 +12,7 @@ OBJ_DIR = obj
 INCS = -I includes
 MLX_FLAGS = -Lmlx -lmlx -L/usr/X11/lib -lXext -lX11 
 
-SRC = main.c colors.c events.c hooks.c loops.c images.c validate_path.c read_ber_file.c map.c
+SRC = main.c colors.c events.c hooks.c loops.c images.c validate_path.c read_ber_file.c map.c move.c
 
 UTILS = 
 
@@ -31,7 +31,7 @@ YELLOW = \033[0;93m
 all: $(FT_PRINTF_DIR)/libftprintf.a $(GNL_DIR)/libgnl.a $(MLX_DIR)/libmlx.a $(LIBFT_DIR)/libft.a $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(MLX_FLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(MLX_FLAGS) -no-pie -o $(NAME)
 	@echo "$(GREEN) Compilation of $(NAME) completed!$(BLUE)"
 
 $(FT_PRINTF_DIR)/libftprintf.a:

@@ -39,9 +39,10 @@ int ft_exit(t_data *data)
 }
 int ft_render_next_frame(t_data *data)
 {
-	//put_background();
+	//put_background(data);
 	create_map(data);
 	mlx_hook(data->win, 17, 1L << 2, ft_exit, data);
+	mlx_key_hook(data->win, ft_key_hook, data);
 	return (0);
 }
 
@@ -54,22 +55,29 @@ void handle_error(t_data *data, char *str, int num)
 }
 void init(t_data *data, t_map *map)
 {
-	char *rel_path;
 	int		img_w;
 	int		img_h;
 	t_pic	*img;
+	t_xy player;
 
 	data->map = map;
 	img = malloc(sizeof(t_pic));
 	if (!img)
 		return;
 	data->pic = img;
-	rel_path = "src/files/player/player.xpm";
-	data->pic->pic_up = mlx_xpm_file_to_image(data->mlx, rel_path, &img_w, &img_h);
+	data->pic->pic_up = mlx_xpm_file_to_image(data->mlx, "src/files/player/player.xpm", &img_w, &img_h);
 	if (!data->pic->pic_up)
 		handle_error(data, "Player file not found\n", 1);
+	data->pic->background = mlx_xpm_file_to_image(data->mlx, "src/files/tiles/ground32.xpm", &img_w, &img_h);
+	if (!data->pic->background)
+		handle_error(data, "Background file not found\n", 1);
 	data->counter = 0;
 	data->collected = 0;
+	player = position_item(data->map->map, 'P');
+	data->player.x = player.x;
+	data->player.y = player.y;
+	printf("Your position is x:%d y:%d", data->player.x, data->player.y);
+
 }
 void window_size(char **tab, t_data *data)
 {
@@ -100,6 +108,7 @@ int	main(int argc, char **argv)
 	printf("WIN_X: %d, WIN_Y: %d", data.size.x, data.size.y);
 	data.win = mlx_new_window(data.mlx, data.size.x, data.size.y, "Wassup");
 	ft_render_next_frame(&data);
+	printf("Position player main: %d %d\n", data.player.x, data.player.y);
 	mlx_loop(data.mlx);
 	return (printf("Map valid!\n"), 1);
 }

@@ -6,14 +6,12 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:09:59 by agaroux           #+#    #+#             */
-/*   Updated: 2025/03/20 17:29:19 by antoine          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:35:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include "../lib/get_next_line/get_next_line.h"
-// Make sure get_next_line is declared in so_long.h or declare it here:
-// char *get_next_line(int fd);
 
 //check if rectangle
 int rectangle_map(char **map)
@@ -28,16 +26,13 @@ int rectangle_map(char **map)
     while (map[i])
     {
             printf("line: %s\nlength: %d\nlength2: %d\n", map[i], length, (int)ft_strlen(map[i]));
-            //rectangular
             if (length != (int)ft_strlen(map[i]))
                 return (printf("Not the same length\n"), 0);
-            //walls at start and end of each line
             if (map[i][0] != '1' || map[i][length - 2] != '1')
                 return (printf("Wall problem! %c %c", map[i][0], map[i][length - 2]),0);
             i++;
     }
     i--;
-    //check end and start of map
     while (j < length - 2)
         {
             if (map[0][j] != '1' || map[i][j] != '1')
@@ -47,7 +42,14 @@ int rectangle_map(char **map)
     return (1);
 }
 
-int duplicate_map(char **map)
+void initalize(int *a, int *b, int *c, int *d)
+{
+    *a = 0;
+    *b = 0;
+    *c = 0;
+    *d = -1;
+}
+int duplicate_map(char **map, t_map *data)
 {
     int p;
     int e;
@@ -55,14 +57,11 @@ int duplicate_map(char **map)
     int i;
     int j;
     
-    p = 0;
-    e = 0;
-    c = 0;
-    i = 0;
-    while (map[i])
+    initalize(&p, &e, &c, &i);
+    while (map[++i])
         {
-            j = 0;
-            while (map[i][j])
+            j = -1;
+            while (map[i][++j])
                 {
                     if (map[i][j] == 'P')
                         p++;
@@ -70,13 +69,11 @@ int duplicate_map(char **map)
                         e++;
                     if (map[i][j] == 'C')
                         c++;
-                    j++;
                 }
-                i++;
         }
-    //printf("P: %d, E: %d, C: %d", p, e, c);
+    data->collect = c;
     if (p != 1 || e != 1 || !c)
-        return (0);
+        return (printf("Cases are wrong!\n"),0);
     return (1);
 }
 
@@ -94,31 +91,54 @@ t_xy    position_item(char **map, char c)
         {
             if (map[i][j] == c)
                 {
-                    res.x = i;
-                    res.y = j;
+                    res.x = j;
+                    res.y = i;
                     return (res);
                 }
             j++;
         }
         i++;
     }
-    res.x = 0;
-    res.y = 0;
+    res.x = -1;
+    res.y = -1;
     return (res);
 }
 
-
-int validate_map(char **map)
+int valid_cases(char **map)
 {
+    int i;
+    int j;
+    
+    i = 0;
+    while (map[i+1])
+    {
+        j = 0;
+        while (map[i][j])
+        {
+            if (map[i][j] != 'C' && map[i][j] != '1' && map[i][j] != 'E' && map[i][j] != '0' && map[i][j] != 'P' && map[i][j] != '\n')
+                return (0);
+            j++;
+        }
+        i++;
+    }
+    return (1);
+}
+
+int validate_map(char **map, t_map *data)
+{
+    printf("ok");
+    if (!valid_cases(map))
+        return(0);
+    printf("ok1");
     if (!rectangle_map(map))
         return (0);
-    printf("ok");
-    if (!duplicate_map(map))
+    printf("ok3");
+    if (!duplicate_map(map, data))
         return (0);
-    printf("ok2");
+    printf("ok4");
     if (!int_valid_path(map))
         return (0);
-    printf("ok3");
+    printf("ok5");
     return (1);
 }
 int read_ber_file(const char *filename, t_map *map)
@@ -151,7 +171,7 @@ int read_ber_file(const char *filename, t_map *map)
     if (tab)
         tab[count] = NULL;
     close(fd);
-    if (!validate_map(tab))
+    if (!validate_map(tab, map))
         return (0);
     return (map->map = tab, 1);
 }
