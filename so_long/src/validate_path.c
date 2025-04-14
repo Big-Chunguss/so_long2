@@ -3,32 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   validate_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:41:35 by agaroux           #+#    #+#             */
-/*   Updated: 2025/04/05 13:59:11 by antoine          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:20:00 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-int	int_valid_path(char **map)
+int	int_valid_path(char **map, t_map *data)
 {
 	t_xy	player;
 	int		**visited;
 	int		**visited2;
 
-	// t_xy exit;
 	player = position_item(map, 'P');
-	// exit = position_item(map, 'E');
 	visited = map_visited(map);
 	visited2 = map_visited(map);
 	if (!valid_path(map, player.y, player.x, visited))
+	{
+		free_visited(visited, data);
+        free_visited(visited2, data);
 		return (printf("Path exit not valid!\n"), 0);
+	}
 	if (!valid_path_c(map, player.y, player.x, visited2))
+	{
+		free_visited(visited, data);
+        free_visited(visited2, data);
 		return (printf("Path collectibles not valid!\n"), 0);
-	return (printf("player2 x: %d y %d\n", player.x, player.y),1);
+	}
+	
+	return (free_visited(visited, data), free_visited(visited2, data), 1);
 }
+
 
 void	print_map(char **map)
 {
@@ -43,82 +51,56 @@ void	print_map(char **map)
 	printf("\n");
 }
 
-int	valid_position(char **map, int x, int y)
-{
-	if (map[x][y] != '1')
-		return (1);
-	return (0);
-}
 int	valid_path(char **map, int pX, int pY, int **visited)
 {
-	int	nextX;
-	int	nextY;
-	int	dx[] = {-1, 1, 0, 0};
-	int	dy[] = {0, 0, -1, 1};
-	
+	int	next_x;
+	int	next_y;
+	int	dx[4];
+	int	dy[4];
+	int	i;
+
+	initialize_directions(dx, dy);
 	printf("Player exit = x: %d y: %d\n", pX, pY);
 	if (map[pX][pY] == 'E')
 		return (printf("Valid path player!\n"), 1);
 	if (!valid_position(map, pX, pY) || visited[pX][pY])
 		return (0);
 	visited[pX][pY] = 1;
-	for (int i = 0; i < 4; i++)
+	i = 0;
+	while (i < 4)
 	{
-		nextX = pX + dx[i];
-		nextY = pY + dy[i];
-		if (valid_path(map, nextX, nextY, visited))
-			return (printf("Yes it works e!"), 1);
+		next_x = pX + dx[i];
+		next_y = pY + dy[i];
+		if (valid_path(map, next_x, next_y, visited))
+			return (printf("Yes it works c!"), 1);
+		i++;
 	}
 	return (printf("No path exit!\n"), 0);
 }
+
 int	valid_path_c(char **map, int pX, int pY, int **visited)
 {
-	int	nextX;
-	int	nextY;
-	int	dx[] = {-1, 1, 0, 0};
-	int	dy[] = {0, 0, -1, 1};
-	
+	int	next_x;
+	int	next_y;
+	int	dx[4];
+	int	dy[4];
+	int	i;
+
+	initialize_directions(dx, dy);
 	printf("Player collectibles = x: %d y: %d\n", pX, pY);
 	if (map[pX][pY] == 'C')
 		return (printf("Valid path collectibles!\n"), 1);
 	if (!valid_position(map, pX, pY) || visited[pX][pY])
 		return (0);
 	visited[pX][pY] = 1;
-	for (int i = 0; i < 4; i++)
+	i = 0;
+	while (i < 4)
 	{
-		nextX = pX + dx[i];
-		nextY = pY + dy[i];
-		if (valid_path_c(map, nextX, nextY, visited))
+		next_x = pX + dx[i];
+		next_y = pY + dy[i];
+		if (valid_path_c(map, next_x, next_y, visited))
 			return (printf("Yes it works c!"), 1);
+		i++;
 	}
 	return (printf("No path collectible!\n"), 0);
-}
-int	**map_visited(char **map)
-{
-	int	**visited_map;
-    int x, y, row_count;
-	
-    row_count = 0;
-	while (map[row_count])
-		row_count++;
-	visited_map = malloc(sizeof(int *) * row_count);
-	if (!visited_map)
-		return (NULL);
-	for (x = 0; x < row_count; x++)
-	{
-		int col_count = ft_strlen(map[x]); // or another appropriate length
-		//printf("Col count: %d\n", col_count);
-		visited_map[x] = malloc(sizeof(int) * col_count);
-		if (!visited_map[x])
-		{
-			// free previously allocated rows
-			for (int k = 0; k < x; k++)
-				free(visited_map[k]);
-			free(visited_map);
-			return (NULL);
-		}
-		for (y = 0; y < col_count; y++)
-			visited_map[x][y] = 0;
-	}
-	return (visited_map);
 }

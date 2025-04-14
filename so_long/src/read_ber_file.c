@@ -3,175 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   read_ber_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:09:59 by agaroux           #+#    #+#             */
-/*   Updated: 2025/04/11 15:35:04 by antoine          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:46:50 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include "../lib/get_next_line/get_next_line.h"
 
-//check if rectangle
-int rectangle_map(char **map)
+t_xy	position_item(char **map, char c)
 {
-    int i;
-    int j;
-    int length;
-    
-    i = 0;
-    j = 0;
-    length = ft_strlen(map[i]);
-    while (map[i])
-    {
-            printf("line: %s\nlength: %d\nlength2: %d\n", map[i], length, (int)ft_strlen(map[i]));
-            if (length != (int)ft_strlen(map[i]))
-                return (printf("Not the same length\n"), 0);
-            if (map[i][0] != '1' || map[i][length - 2] != '1')
-                return (printf("Wall problem! %c %c", map[i][0], map[i][length - 2]),0);
-            i++;
-    }
-    i--;
-    while (j < length - 2)
-        {
-            if (map[0][j] != '1' || map[i][j] != '1')
-                return (printf("Wall problem2!"), 0); 
-            j++;
-        }
-    return (1);
+	t_xy	res;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == c)
+			{
+				res.x = j;
+				res.y = i;
+				return (res);
+			}
+			j++;
+		}
+		i++;
+	}
+	res.x = -1;
+	res.y = -1;
+	return (res);
 }
 
-void initalize(int *a, int *b, int *c, int *d)
+int	free_tab_on_error(char **tab, int count)
 {
-    *a = 0;
-    *b = 0;
-    *c = 0;
-    *d = -1;
-}
-int duplicate_map(char **map, t_map *data)
-{
-    int p;
-    int e;
-    int c;
-    int i;
-    int j;
-    
-    initalize(&p, &e, &c, &i);
-    while (map[++i])
-        {
-            j = -1;
-            while (map[i][++j])
-                {
-                    if (map[i][j] == 'P')
-                        p++;
-                    if (map[i][j] == 'E')
-                        e++;
-                    if (map[i][j] == 'C')
-                        c++;
-                }
-        }
-    data->collect = c;
-    if (p != 1 || e != 1 || !c)
-        return (printf("Cases are wrong!\n"),0);
-    return (1);
+	while (count--)
+		free(tab[count]);
+	free(tab);
+	return (0);
 }
 
-t_xy    position_item(char **map, char c)
+int	read_lines(int fd, char ***tab, t_map *map)
 {
-    t_xy res;
-    int  i;
-    int  j;
+	char	*line;
+	char	**tmp;
+	int		count;
 
-    i = 0;
-    while (map[i])
-    {
-        j = 0;
-        while (map[i][j])
-        {
-            if (map[i][j] == c)
-                {
-                    res.x = j;
-                    res.y = i;
-                    return (res);
-                }
-            j++;
-        }
-        i++;
-    }
-    res.x = -1;
-    res.y = -1;
-    return (res);
+	*tab = NULL;
+	count = 0;
+	line = get_next_line(fd);
+	if (!line)
+		return (printf("Empty file!\n"),0);
+	while (line)
+	{
+		tmp = realloc(*tab, sizeof(char *) * (count + 2));
+		if (!tmp)
+			return (free_tab_on_error(*tab, count));
+		*tab = tmp;
+		(*tab)[count++] = line;
+		line = get_next_line(fd);
+	}
+	
+	if (*tab)
+		(*tab)[count] = NULL;
+	map->row = count;
+	return (1);
 }
+int check_filename(char *str)
+{
+	char *new_str;
+	
+	new_str = ft_strrchr(str, '.');
+	printf("%s\n", new_str);
+	return(ft_strncmp(".ber", new_str, 5));
+}
+int	read_ber_file(const char *filename, t_map *map)
+{
+	int		fd;
+	char	**tab;
 
-int valid_cases(char **map)
-{
-    int i;
-    int j;
-    
-    i = 0;
-    while (map[i+1])
-    {
-        j = 0;
-        while (map[i][j])
-        {
-            if (map[i][j] != 'C' && map[i][j] != '1' && map[i][j] != 'E' && map[i][j] != '0' && map[i][j] != 'P' && map[i][j] != '\n')
-                return (0);
-            j++;
-        }
-        i++;
-    }
-    return (1);
-}
-
-int validate_map(char **map, t_map *data)
-{
-    printf("ok");
-    if (!valid_cases(map))
-        return(0);
-    printf("ok1");
-    if (!rectangle_map(map))
-        return (0);
-    printf("ok3");
-    if (!duplicate_map(map, data))
-        return (0);
-    printf("ok4");
-    if (!int_valid_path(map))
-        return (0);
-    printf("ok5");
-    return (1);
-}
-int read_ber_file(const char *filename, t_map *map)
-{
-    int     fd;
-    char    *line;
-    char    **tab;
-    int     count;
-    char    **tmp;
-    
-    fd = open(filename, O_RDONLY);
-    if (fd < 0)
-        return(printf("Error with the map!\n"), 0);
-    tab = NULL;
-    count = 0;
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        tmp = realloc(tab, sizeof(char *) * (count + 2));
-        if (!tmp)
-        {
-            while (count--)
-                free(tab[count]);
-            free(tab);
-            return (0);
-        }
-        tab = tmp;
-        tab[count] = line;
-        count++;
-    }
-    if (tab)
-        tab[count] = NULL;
-    close(fd);
-    if (!validate_map(tab, map))
-        return (0);
-    return (map->map = tab, 1);
+	if (check_filename((char *)filename))
+		return (0);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (printf("Error with the map path!\n"), 0);
+	if (!read_lines(fd, &tab, map))
+		return (close(fd), 0);
+	close(fd);
+	if (!validate_map(tab, map))
+		return (free_tab_on_error(tab, map->row));
+	map->map = tab;
+	return (1);
 }

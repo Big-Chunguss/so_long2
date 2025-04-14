@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:43:00 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/04/11 15:36:38 by antoine          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:48:36 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_map
 	void	*object;
 	t_xy    coordinates;
 	int		collect;
+	int		row;
 }				t_map;
 
 typedef struct s_texture {
@@ -95,62 +96,47 @@ int ft_exit(t_data *data);
 int ft_render_next_frame(t_data *data);
 void handle_error(t_data *data, char *str, int num);
 void init(t_data *data, t_map *map);
-void window_size(char **tab, t_data *data);
 int	main(int argc, char **argv);
 
 //map
 int ft_key_hook(int keysym, t_data *data);
-void put_background(t_data *data);
 void put_object(t_data *data, char *path, int x, int y);
 void create_map(t_data *data);
+void window_size(char **tab, t_data *data);
 
+//check_map
+int rectangle_map(char **map);
+int duplicate_map(char **map, t_map *data);
+int validate_map(char **map, t_map *data);
+int valid_cases(char **map);
+void initalize(int *a, int *b, int *c, int *d);
 
 //move 
 void	ft_move(t_data *data, char pos, int dir);
 void    winner(t_data *data);
 
-// colors
-unsigned int add_shade(double shade, unsigned int color);
-unsigned int	create_trgb(unsigned char t, unsigned char r, unsigned char g, unsigned char b);
-unsigned int get_opposite(unsigned int color);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-
-// events
-int on_destroy(int keysym, t_data *img);
-int on_keypress(int keysym, t_data *img);
-void key_press_handler(int keysym, t_key_state *param);
-void key_release_handler(int keysym, t_key_state *param);
-void check_key_hold(t_key_state *param);
-
-//hooks
-int	key_hook(int keycode);
-int	mouse_hook(int keycode);
-int mouse_move(int x, int y, t_data *data);
-
-//loops
-int render_next_frame(t_data *data);
-void draw_circle(void *mlx_ptr, void *win_ptr, int center_x, int center_y, int radius, int color);
-
-//images
-void replicate_texture(t_data data);
-
 //read_ber_file
-int rectangle_map(char **map);
-int duplicate_map(char **map, t_map *data);
-t_xy    position_item(char **map, char c);
-int validate_map(char **map, t_map *data);
-int valid_cases(char **map);
 int read_ber_file(const char *filename, t_map *map);
-void initalize(int *a, int *b, int *c, int *d);
+t_xy    position_item(char **map, char c);
+int	free_tab_on_error(char **tab, int count);
+int	read_lines(int fd, char ***tab, t_map *map);
+int check_filename(char *str);
 
 //validate_path
-int int_valid_path(char **map);
+int int_valid_path(char **map, t_map *data);
 void print_map(char **map);
 int valid_position(char **map, int x, int y);
 int valid_path(char **map, int pX, int pY, int **visited);
 int	valid_path_c(char **map, int pX, int pY, int **visited);
+
+//map_visited
+int	**allocate_visited_map(int row_count);
+int	allocate_visited_row(int **visited_map, char **map, int x);
 int **map_visited(char **map);
 
+//support
+void	initialize_directions(int *dx, int *dy);
+void free_visited(int **visited, t_map *data);
 
 #endif
 
