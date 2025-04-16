@@ -6,7 +6,7 @@
 /*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:41:35 by agaroux           #+#    #+#             */
-/*   Updated: 2025/04/16 12:06:01 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:16:24 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,8 @@ int	valid_path(char **map, int pX, int pY, int **visited)
 	int	i;
 
 	initialize_directions(dx, dy);
-	printf("Player exit = x: %d y: %d\n", pX, pY);
 	if (map[pX][pY] == 'E')
-		return (printf("Valid path player!\n"), 1);
+		return (1);
 	if (!valid_position(map, pX, pY) || visited[pX][pY])
 		return (0);
 	visited[pX][pY] = 1;
