@@ -6,7 +6,7 @@
 /*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:39:56 by agaroux           #+#    #+#             */
-/*   Updated: 2025/04/14 14:56:42 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:02:06 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_key_hook(int keysym, t_data *data)
 {
-    if (keysym == XK_Escape)
+	if (keysym == XK_Escape)
 		ft_exit(data);
 	else if (keysym == 119 || keysym == XK_Up)
 		ft_move(data, 'y', UP);
@@ -77,8 +77,10 @@ void	window_size(char **tab, t_data *data)
 	count = 0;
 	while (tab[count])
 		count++;
-	data->size.x = ((ft_strlen(tab[0]) - 1) * WIN_W);
-	data->size.y = (count * WIN_H);
+	printf("%d %d coord\n", data->map->coordinates.x, data->map->coordinates.y);
+	data->size.x = ((data->map->coordinates.x - 1) * WIN_W);
+	data->size.y = (data->map->coordinates.y * WIN_H);
+	printf("%d %d win coord\n", data->size.y, data->size.x);
 }
 
 int	ft_render_next_frame(t_data *data)

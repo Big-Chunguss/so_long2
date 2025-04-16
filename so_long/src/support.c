@@ -6,25 +6,20 @@
 /*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 15:04:45 by agaroux           #+#    #+#             */
-/*   Updated: 2025/04/14 16:22:10 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:04:50 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-/*void destroy_images(t_data *data)
+void	free_visited(int **visited, t_map *data)
 {
-    mlx_destroy_image(data->mlx, data->pic->)
-}*/
+	int	i;
 
-void free_visited(int **visited, t_map *data)
-{
-    int i;
-
-    i = 0;
-    while (i < data->row)
-        free(visited[i++]);
-    free(visited);
+	i = 0;
+	while (i < data->row)
+		free(visited[i++]);
+	free(visited);
 }
 
 int	valid_position(char **map, int x, int y)
@@ -46,3 +41,44 @@ void	initialize_directions(int *dx, int *dy)
 	dy[3] = 1;
 }
 
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
+char	**copy_tab(char **tab)
+{
+	int		i;
+	int		j;
+	char	**copy;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	copy = malloc(sizeof(char *) * (i + 1));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (tab[i])
+	{
+		j = ft_strlen(tab[i]);
+		copy[i] = malloc(sizeof(char) * (j + 1));
+		if (!copy[i])
+		{
+			free_tab_on_error(copy, 1);
+			return (NULL);
+		}
+		ft_strlcpy(copy[i], tab[i], j + 1);
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
+}

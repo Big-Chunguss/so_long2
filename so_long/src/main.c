@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 11:38:52 by agaroux          #+#    #+#             */
-/*   Updated: 2025/03/19 11:20:29 by agaroux          ###   ########.fr       */
+/*   Created: 2025/03/10 11:38:52 by agaroux           #+#    #+#             */
+/*   Updated: 2025/04/16 12:06:49 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void free_double_ptr(t_data *data)
+void	free_double_ptr(t_data *data)
 {
-    int i;
+	int	i;
 
-    if (data->map && data->map->map)
-    {
-        i = 0;
-        while (data->map->map[i])
-            free(data->map->map[i++]);
-        free(data->map->map);
-    }
-    if (data->pic)
-    {
-        if (data->pic->pic_up)
-            mlx_destroy_image(data->mlx, data->pic->pic_up);
-        if (data->pic->background)
-            mlx_destroy_image(data->mlx, data->pic->background);
-        free(data->pic);
-    }
-    if (data->win)
-    	mlx_destroy_window(data->mlx, data->win);
-    if (data->mlx)
-    {
-        mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		data->mlx = NULL;
-    }
+	if (data->map && data->map->map)
+	{
+		i = 0;
+		while (data->map->map[i])
+			free(data->map->map[i++]);
+		free(data->map->map);
+	}
+	if (data->pic)
+	{
+		if (data->pic->pic_up)
+			mlx_destroy_image(data->mlx, data->pic->pic_up);
+		if (data->pic->background)
+			mlx_destroy_image(data->mlx, data->pic->background);
+		free(data->pic);
+	}
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
+	free(data->mlx);
+	data->mlx = NULL;
+	free(data->map);
+	free(data->map_flood);
+	free(data);
 }
 
-int ft_exit(t_data *data)
+int	ft_exit(t_data *data)
 {
-    free_double_ptr(data);
-    printf("Looser\n");
-    exit(EXIT_SUCCESS);
+	free_double_ptr(data);
+	printf("Looser\n");
+	exit(EXIT_SUCCESS);
 }
 
 void	handle_error(t_data *data, char *str, int num)
@@ -66,7 +65,6 @@ void	init(t_data *data, t_map *map)
 	int		img_w;
 	int		img_h;
 	t_pic	*img;
-	t_xy	player;
 
 	data->map = map;
 	img = malloc(sizeof(t_pic));
@@ -83,28 +81,31 @@ void	init(t_data *data, t_map *map)
 		handle_error(data, "Background file not found\n", 1);
 	data->counter = 0;
 	data->collected = 0;
-	player = position_item(data->map->map, 'P');
-	data->player.x = player.x;
-	data->player.y = player.y;
-	printf("Your position is x:%d y:%d", data->player.x, data->player.y);
 }
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
-	t_map	map;
+	t_data	*data;
 
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (printf("Memory allocation failed!\n"), 0);
 	if (argc != 2)
 		return (printf("Not the right # of Inputs!\n"), 0);
-	if (!read_ber_file(argv[1], &map))
+	data->map = NULL;
+	data->map_flood = NULL;
+	data->mlx = NULL;
+	data->win = NULL;
+	data->pic = NULL;
+	if (!read_ber_file(argv[1], data))
 		return (printf("Map Error!\n"), 0);
-	window_size(map.map, &data);
-	data.mlx = mlx_init();
-	if (!data.mlx)
+	data->mlx = mlx_init();
+	if (!data->mlx)
 		return (printf("Initialization Error\n"), 0);
-	init(&data, &map);
-	data.win = mlx_new_window(data.mlx, data.size.x, data.size.y, "Wassup");
-	ft_render_next_frame(&data);
-	mlx_loop(data.mlx);
+	init(data, data->map);
+	window_size(data->map->map, data);
+	data->win = mlx_new_window(data->mlx, data->size.x, data->size.y, "Wassup");
+	ft_render_next_frame(data);
+	mlx_loop(data->mlx);
 	return (1);
 }

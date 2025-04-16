@@ -6,14 +6,13 @@
 /*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:31:13 by agaroux           #+#    #+#             */
-/*   Updated: 2025/04/14 16:19:21 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:07:54 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-// check if rectangle
-int	rectangle_map(char **map)
+int	rectangle_map(char **map, t_data *data)
 {
 	int	i;
 	int	j;
@@ -22,16 +21,16 @@ int	rectangle_map(char **map)
 	i = 0;
 	j = 0;
 	length = ft_strlen(map[i]);
-	while (map[i])
+	data->map->coordinates.x = length;
+	while (map[i] && map[i][0] != '\n')
 	{
-		printf("line: %s\nlength: %d\nlength2: %d\n", map[i], length,
-			(int)ft_strlen(map[i]));
 		if (length != (int)ft_strlen(map[i]))
 			return (printf("Not the same length\n"), 0);
 		if (map[i][0] != '1' || map[i][length - 2] != '1')
 			return (printf("Wall problem!"), 0);
 		i++;
 	}
+	data->map->coordinates.y = i;
 	i--;
 	while (j < length - 2)
 	{
@@ -99,13 +98,13 @@ int	valid_cases(char **map)
 	return (1);
 }
 
-int	validate_map(char **map, t_map *data)
+int	validate_map(char **map, t_data *data)
 {
 	if (!valid_cases(map))
 		return (0);
-	if (!rectangle_map(map))
+	if (!rectangle_map(map, data))
 		return (0);
-	if (!duplicate_map(map, data))
+	if (!duplicate_map(map, data->map))
 		return (0);
 	if (!int_valid_path(map, data))
 		return (0);

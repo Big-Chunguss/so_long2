@@ -6,7 +6,7 @@
 /*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:43:00 by afodil-c          #+#    #+#             */
-/*   Updated: 2025/04/14 16:48:36 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/04/15 17:36:57 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,11 @@ typedef struct s_data
 	void	*win;
 	t_xy    size;
 	t_xy    player;
+	t_xy	w_size;
 	int		counter;
 	int		collected;
 	t_map	*map;
+	t_map	*map_flood;
 	t_pic	*pic;
 }				t_data;
 
@@ -105,9 +107,9 @@ void create_map(t_data *data);
 void window_size(char **tab, t_data *data);
 
 //check_map
-int rectangle_map(char **map);
+int rectangle_map(char **map, t_data *data);
 int duplicate_map(char **map, t_map *data);
-int validate_map(char **map, t_map *data);
+int validate_map(char **map, t_data *data);
 int valid_cases(char **map);
 void initalize(int *a, int *b, int *c, int *d);
 
@@ -116,14 +118,14 @@ void	ft_move(t_data *data, char pos, int dir);
 void    winner(t_data *data);
 
 //read_ber_file
-int read_ber_file(const char *filename, t_map *map);
+int read_ber_file(const char *filename, t_data *data);
 t_xy    position_item(char **map, char c);
 int	free_tab_on_error(char **tab, int count);
 int	read_lines(int fd, char ***tab, t_map *map);
 int check_filename(char *str);
 
 //validate_path
-int int_valid_path(char **map, t_map *data);
+int int_valid_path(char **map, t_data *data);
 void print_map(char **map);
 int valid_position(char **map, int x, int y);
 int valid_path(char **map, int pX, int pY, int **visited);
@@ -137,6 +139,14 @@ int **map_visited(char **map);
 //support
 void	initialize_directions(int *dx, int *dy);
 void free_visited(int **visited, t_map *data);
+void	free_tab(char **tab);
+char	**copy_tab(char **tab);
+
+//flood_fill
+void fill(t_data *data, char target, int col, int row);
+int flood_fill(char **tab, t_data *data, t_xy begin);
+int check_c(char **tab);
+t_xy limit_tab(char **tab);
 
 #endif
 
