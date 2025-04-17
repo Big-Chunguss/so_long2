@@ -6,7 +6,7 @@
 /*   By: agaroux <agaroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:38:52 by agaroux           #+#    #+#             */
-/*   Updated: 2025/04/17 15:54:03 by agaroux          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:09:55 by agaroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	flood_fill(char **tab, t_data *data, t_xy begin)
 	data->map_flood = malloc(sizeof(t_map));
 	data->map_flood->map = copy_tab(tab);
 	fill(data, target, begin.x, begin.y);
-	
 	if (check_c(data->map_flood->map))
 	{
 		free_tab(data->map_flood->map);
